@@ -1,0 +1,43 @@
+create table customer (
+                          id int primary key,
+                          first_name varchar(100) not null,
+                          last_name varchar(100) not null,
+                          city varchar(100),
+                          country varchar(100),
+                          phone varchar(100)
+);
+create table supplier (
+                          id int primary key,
+                          company_name varchar(100) not null,
+                          contact_name varchar(100),
+                          contact_title varchar(100),
+                          city varchar(100),
+                          country varchar(100),
+                          phone varchar(100),
+                          fax varchar(100)
+);
+
+create table product (
+                         id int primary key,
+                         product_name varchar(100) not null,
+                         unit_price decimal(12,2) default 0,
+                         package varchar(100),
+                         is_discontinued boolean default false,
+                         supplier_id int references supplier(id) not null
+);
+
+create table orders (
+                        id int primary key,
+                        order_date timestamp default now(),
+                        order_number varchar(100),
+                        total_amount decimal(12,2) default 0,
+                        customer_id int references customer(id) not null
+);
+
+create table order_item (
+                            id int primary key,
+                            unit_price decimal(12,2) default 0,
+                            quantity int default 1,
+                            order_id int references orders(id) not null,
+                            product_id int references product(id) not null
+);
